@@ -11,27 +11,27 @@ class ChoixVibra(Frame):
         self.chk = IntVar()
 
         Checkbutton(
-            self, text='Afficher', variable=self.chk,
+            self, text='Afficher', variable=self.chk, font=("Helvetica", 9),
             fg=self.coul, command=self.setCurve,
         ).pack(side=LEFT)
 
         Scale(
-            self, length=150, orient=HORIZONTAL, sliderlength=25, troughcolor=self.coul,
-            label='Fréquence (Hz) :', from_=1., to=9., tickinterval=2,
-            resolution=0.25, showvalue=0, command=self.setFrequency
-        ).pack(side=LEFT)
+            self, length=200, orient=HORIZONTAL, sliderlength=25, troughcolor=self.coul,
+            label='Fréquence (Hz) :', from_=1.0, to=9.0, tickinterval=2.0, font=("Helvetica", 9),
+            resolution=0.25, showvalue=0, command=self.setFrequency,
+        ).pack(side=LEFT, padx=10)
 
         Scale(
-            self, length=150, orient=HORIZONTAL, sliderlength=15, troughcolor=self.coul,
-            label='Phase (degrés) :', from_=-180, to=180, tickinterval=90,
-            showvalue=1, command=self.setPhase
-        ).pack(side=LEFT)
+            self, length=200, orient=HORIZONTAL, sliderlength=15, troughcolor=self.coul,
+            label='Phase (degrés) :', from_=-180, to=180, tickinterval=90, font=("Helvetica", 9),
+            showvalue=0, command=self.setPhase
+        ).pack(side=LEFT, padx=10)
 
         Scale(
-            self, length=150, orient=HORIZONTAL, sliderlength=25, troughcolor=self.coul,
-            label='Amplitude :', from_=1, to=9, tickinterval=2,
+            self, length=200, orient=HORIZONTAL, sliderlength=25, troughcolor=self.coul,
+            label='Amplitude :', from_=2, to=10, tickinterval=2, font=("Helvetica", 9),
             showvalue=0, command=self.setAmplitude
-        ).pack(side=LEFT)
+        ).pack(side=LEFT, padx=10)
 
     def setCurve(self):
         self.event_generate('<Control-Z>')
