@@ -2,61 +2,63 @@ from tkinter import *
 from math import pi
 
 
-class ChoixVibra(Frame):
-    """Curseurs pour choisir fréquence, phase & amplitude d'une vibration"""
+class CreateControl(Frame):
+    """Control window in order to set values for different curve parameters"""
 
-    def __init__(self, boss=None, coul='red'):
+    def __init__(self, boss=None, coul: str = "red"):
         Frame.__init__(self, boss, bd=4, relief="groove")
+
         self.freq, self.phase, self.ampl, self.coul = 0, 0, 0, coul
-        self.chk = IntVar()
+        self.check = IntVar()
 
         Checkbutton(
-            self, text='Afficher', variable=self.chk, font=("Helvetica", 9),
-            fg=self.coul, command=self.setCurve,
+            self, text="Display", variable=self.check, font=("Helvetica", 9),
+            fg=self.coul, command=self.set_curve,
         ).pack(side=LEFT)
 
         Scale(
             self, length=200, orient=HORIZONTAL, sliderlength=25, troughcolor=self.coul,
             label='Fréquence (Hz) :', from_=1.0, to=9.0, tickinterval=2.0, font=("Helvetica", 9),
-            resolution=0.25, showvalue=0, command=self.setFrequency,
+            resolution=0.25, showvalue=False, command=self.set_frequency,
         ).pack(side=LEFT, padx=10)
 
         Scale(
             self, length=200, orient=HORIZONTAL, sliderlength=15, troughcolor=self.coul,
             label='Phase (degrés) :', from_=-180, to=180, tickinterval=90, font=("Helvetica", 9),
-            showvalue=0, command=self.setPhase
+            showvalue=0, command=self.set_phase
         ).pack(side=LEFT, padx=10)
 
         Scale(
             self, length=200, orient=HORIZONTAL, sliderlength=25, troughcolor=self.coul,
             label='Amplitude :', from_=2, to=10, tickinterval=2, font=("Helvetica", 9),
-            showvalue=0, command=self.setAmplitude
+            showvalue=0, command=self.set_amplitude
         ).pack(side=LEFT, padx=10)
 
-    def setCurve(self):
+    def set_curve(self):
         self.event_generate('<Control-Z>')
 
-    def setFrequency(self, f):
-        self.freq = float(f)
+    def set_frequency(self, frequency: int | float):
+        self.freq = float(frequency)
         self.event_generate('<Control-Z>')
 
-    def setPhase(self, p):
-        pp = float(p)
-        self.phase = pp * 2 * pi / 360
+    def set_phase(self, phase: int | float):
+        self.phase = float(phase) * 2 * pi / 360
         self.event_generate('<Control-Z>')
 
-    def setAmplitude(self, a):
-        self.ampl = float(a)
+    def set_amplitude(self, amplitude: int | float):
+        self.ampl = float(amplitude)
         self.event_generate('<Control-Z>')
 
+    def get_values(self):
+        return self.freq, self.phase, self.ampl
 
 if __name__ == '__main__':
     def afficherTout(event=None):
-        lab.configure(text=f"{fra.chk.get()} - {fra.freq} - {fra.phase} - {fra.ampl}")
+        lab.configure(text=f"{fra.check.get()} - {fra.freq} - {fra.phase} - {fra.ampl}")
 
 
     root = Tk()
-    fra = ChoixVibra(root, 'navy')
+    fra = CreateControl(root, 'navy')
     fra.pack(side=TOP)
 
     lab = Label(root, text='test')

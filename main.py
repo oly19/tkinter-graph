@@ -1,9 +1,10 @@
-from oscillo import *
-from curseurs import *
+from graph import *
+from control import *
 
 
 class ShowVibra(Frame):
     """Démonstration de mouvements vibratoires harmoniques"""
+
     def __init__(self, boss=None):
         Frame.__init__(self)  # constructeur de la classe parente
 
@@ -12,11 +13,11 @@ class ShowVibra(Frame):
         self.trace = [0] * self.graph_count
         self.controle = [0] * self.graph_count
 
-        self.gra = OscilloGraphe(self, larg=375, haut=270)
-        self.gra.configure(bg='black', bd=2, relief=SOLID)
-        self.gra.pack(side=TOP, pady=5)
+        self.gra = DrawGraph(self, larg=750, haut=540)
+        self.gra.configure(bg='black', bd=2, relief="sunken")
+        self.gra.pack(side=TOP, padx=100, pady=5)
         for i in range(self.graph_count):
-            self.controle[i] = ChoixVibra(self, self.couleur[i])
+            self.controle[i] = CreateControl(self, self.couleur[i])
             self.controle[i].pack(pady=5)
 
         self.master.bind('<Control-Z>', self.montreCourbes)
@@ -27,13 +28,13 @@ class ShowVibra(Frame):
         """(Ré)Affichage des trois graphiques élongation/temps"""
         for i in range(self.graph_count):
             self.gra.delete(self.trace[i])
-
-            if self.controle[i].chk.get():
+            freq, phase, ampl = self.controle[i].get_values()
+            if self.controle[i].check.get():
                 self.trace[i] = self.gra.traceCourbe(
                     coul=self.couleur[i],
-                    freq=self.controle[i].freq,
-                    phase=self.controle[i].phase,
-                    ampl=self.controle[i].ampl)
+                    freq=freq,
+                    phase=phase,
+                    ampl=ampl)
 
 
 #### Code pour tester la classe : ###

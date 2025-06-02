@@ -2,7 +2,8 @@ from tkinter import *
 from math import sin, pi
 
 
-class OscilloGraphe(Canvas):
+class DrawGraph(Canvas):
+    """Dislpay window in order to show a slope with defined user parameters"""
     def __init__(self, boss=None, larg=200, haut=150):
         Canvas.__init__(self)
         self.configure(width=larg, height=haut)
@@ -27,19 +28,20 @@ class OscilloGraphe(Canvas):
 
     def traceCourbe(self, freq=1, phase=0, ampl=10, coul='red'):
         curve = []
-        pas = (self.larg - 40) / 1000.
-        for t in range(0, 1001, 5):
-            e = ampl * sin(2 * pi * freq * t / 1000 - phase)
+        num_step = 1000
+        pas = (self.larg - 40) / num_step
+        for t in range(0, num_step + 1, 5):
+            e = ampl * sin(2 * pi * freq * t / num_step - phase)
             x = 20 + t * pas
             y = self.haut / 2 - e * self.haut / 25
             curve.append((x, y))
-        n = self.create_line(curve, fill=coul, smooth=1)
+        n = self.create_line(curve, fill=coul, smooth=True)
         return n
 
 
 if __name__ == '__main__':
     root = Tk()
-    gra = OscilloGraphe(root, 1000, 720)
+    gra = DrawGraph(root, 1000, 720)
     gra.pack()
     gra.configure(bg='ivory', bd=2, relief=SUNKEN)
     gra.traceCourbe(2, 1.2, 10, 'purple')
